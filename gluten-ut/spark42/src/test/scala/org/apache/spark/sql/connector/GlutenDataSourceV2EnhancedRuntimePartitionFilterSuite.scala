@@ -14,16 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.spark.sql.execution.joins
+package org.apache.spark.sql.connector
 
-import org.apache.spark.sql.GlutenSQLTestsBaseTrait
+import org.apache.spark.sql.GlutenSQLTestsTrait
 
-// Spark 4.2 made `useOffHeapMemoryMode` abstract and split the suite into on-heap/off-heap
-// variants; these mirror the upstream `HashedRelationOnHeapSuite`/`HashedRelationOffHeapSuite`.
-class GlutenHashedRelationOnHeapSuite extends HashedRelationSuite with GlutenSQLTestsBaseTrait {
-  override protected def useOffHeapMemoryMode: Boolean = false
-}
-
-class GlutenHashedRelationOffHeapSuite extends HashedRelationSuite with GlutenSQLTestsBaseTrait {
-  override protected def useOffHeapMemoryMode: Boolean = true
-}
+class GlutenDataSourceV2EnhancedRuntimePartitionFilterSuite
+  extends DataSourceV2EnhancedRuntimePartitionFilterSuite
+  with GlutenSQLTestsTrait {}
