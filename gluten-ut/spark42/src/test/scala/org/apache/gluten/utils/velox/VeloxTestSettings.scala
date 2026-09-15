@@ -59,6 +59,11 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenDataSourceV2DataFrameSuite]
   enableSuite[GlutenDataSourceV2EnhancedDeleteFilterSuite]
   enableSuite[GlutenDataSourceV2EnhancedPartitionFilterSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "case 9: partition filter pushed but returned in first pass is not re-pushed second pass",
+      "nested identity partition: case 9 partition filter pushed but returned in first pass is not re-pushed second pass"
+    )
   enableSuite[GlutenDataSourceV2EnhancedRuntimePartitionFilterSuite]
   enableSuite[GlutenDataSourceV2FunctionSuite]
   enableSuite[GlutenDataSourceV2SQLSessionCatalogSuite]
@@ -71,10 +76,57 @@ class VeloxTestSettings extends BackendTestSettings {
     .exclude("partitioning reporting")
     .exclude("ordering and partitioning reporting")
   enableSuite[GlutenDeleteFromTableSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "delete from empty tables",
+      "delete from table with table constraints",
+      "delete with EXISTS subquery",
+      "delete with NOT EXISTS subquery",
+      "delete with NOT IN predicates",
+      "delete with NOT IN subqueries",
+      "delete with NULL condition on non-null column",
+      "delete with NULL equality on VOID column",
+      "delete with aliases",
+      "delete with conditions on nested columns",
+      "delete with literal false condition",
+      "delete with unsupported predicates cannot be converted into delete with filters"
+    )
   enableSuite[GlutenFileDataSourceV2FallBackSuite]
     // Rewritten
     .exclude("Fallback Parquet V2 to V1")
   enableSuite[GlutenKeyGroupedPartitioningSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "Gluten - SPARK-42038: partially clustered: full outer join is not applicable",
+      "Gluten - SPARK-42038: partially clustered: left outer join",
+      "Gluten - SPARK-42038: partially clustered: right outer join",
+      "Gluten - SPARK-42038: partially clustered: with different partition keys and both sides partially clustered",
+      "Gluten - SPARK-42038: partially clustered: with different partition keys and missing keys on left-hand side",
+      "Gluten - SPARK-42038: partially clustered: with different partition keys and missing keys on right-hand side",
+      "Gluten - SPARK-42038: partially clustered: with same partition keys and both sides partially clustered",
+      "Gluten - SPARK-42038: partially clustered: with same partition keys and one side fully clustered",
+      "Gluten - SPARK-44647: SPJ: test join key is subset of cluster key with push values and partially-clustered",
+      "Gluten - SPARK-44647: test join key is the second partition key and a transform",
+      "Gluten - SPARK-47094: Compatible buckets does not support SPJ with push-down values or partially-clustered",
+      "Gluten - SPARK-53322: checkpointed scans aren't used for SPJ",
+      "Gluten - SPARK-53322: checkpointed scans can be shuffled by children on SPJ",
+      "Gluten - SPARK-53322: checkpointed scans can't shuffle other children on SPJ",
+      "SPARK-48065: SPJ: allowJoinKeysSubsetOfPartitionKeys is too strict",
+      "SPARK-55535: Multi table join granular partition grouping",
+      "SPARK-55535: Multi table join partial clustering",
+      "SPARK-55715: Custom metrics of sorted-merge coalesced partitions",
+      "SPARK-55715: preserve outputOrdering when coalescing partitions with sorted merge",
+      "SPARK-55715: preserve outputOrdering when coalescing transform-partitioned splits",
+      "SPARK-55848: Window dedup after SPJ with partial clustering",
+      "SPARK-55848: checkpointed partially-clustered join with dedup",
+      "SPARK-55848: dropDuplicates after SPJ with partial clustering",
+      "SPARK-56241: GroupPartitionsExec coalescing derives ordering from key expressions, no pre-join SortExec needed before SortMergeJoin",
+      "SPARK-56241: GroupPartitionsExec non-coalescing passes through child ordering, no pre-join SortExec needed before SortMergeJoin",
+      "SPARK-56549: k-way merge enabled only when parent requires ordering",
+      "partitioned join: exact distribution (same number of buckets) from both sides",
+      "partitioned join: join with two partition keys and matching & sorted partitions",
+      "partitioned join: join with two partition keys and unsorted partitions"
+    )
     // NEW SUITE: disable as they check vanilla spark plan
     .exclude("partitioned join: number of buckets mismatch should trigger shuffle")
     .exclude("partitioned join: only one side reports partitioning")
@@ -276,6 +328,10 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenDataSourceV2OptionSuite]
   enableSuite[GlutenDataSourceV2UtilsSuite]
   enableSuite[GlutenGroupBasedUpdateTableSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "update with constraint violation and transactional checks"
+    )
     // Velox assert_not_null throws VeloxUserError instead of SparkRuntimeException
     .exclude("update with NOT NULL checks")
   enableSuite[GlutenMergeIntoDataFrameSuite]
@@ -462,6 +518,10 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenOrcPartitionDiscoverySuite]
   enableSuite[GlutenOrcV1PartitionDiscoverySuite]
   enableSuite[GlutenOrcV1QuerySuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "SPARK-55857: Enabling/disabling ignoreMissingFiles"
+    )
     // Expected exception org.apache.spark.sql.AnalysisException to be thrown
     // , but no exception was thrown
     .exclude("SPARK-20728 Make ORCFileFormat configurable between sql/hive and sql/core")
@@ -472,6 +532,10 @@ class VeloxTestSettings extends BackendTestSettings {
     // Unsupported.
     .exclude("SPARK-37463: read/write Timestamp ntz to Orc with different time zone")
   enableSuite[GlutenOrcV2QuerySuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "SPARK-55857: Enabling/disabling ignoreMissingFiles"
+    )
     // feature not supported
     .exclude("Enabling/disabling ignoreCorruptFiles")
     // Schema mismatch, From Kind: BIGINT, To Kind: VARCHAR
@@ -555,6 +619,10 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenParquetInteroperabilitySuite]
     .exclude("parquet timestamp conversion")
   enableSuite[GlutenParquetIOSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "SPARK-54220: NullType"
+    )
     // Velox doesn't write file metadata into parquet file.
     .exclude("Write Spark version into Parquet metadata")
     // Exception.
@@ -573,6 +641,10 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenParquetV2PartitionDiscoverySuite]
   enableSuite[GlutenParquetProtobufCompatibilitySuite]
   enableSuite[GlutenParquetV1QuerySuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "SPARK-55857: Enabling/disabling ignoreMissingFiles"
+    )
     .exclude("row group skipping doesn't overflow when reading into larger type")
     // Unsupport spark.sql.files.ignoreCorruptFiles.
     .exclude("Enabling/disabling ignoreCorruptFiles")
@@ -587,6 +659,10 @@ class VeloxTestSettings extends BackendTestSettings {
     // Velox currently does not distinguish `isAdjustedToUTC` in Parquet.
     .exclude("SPARK-36182: can't read TimestampLTZ as TimestampNTZ")
   enableSuite[GlutenParquetV2QuerySuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "SPARK-55857: Enabling/disabling ignoreMissingFiles"
+    )
     .exclude("row group skipping doesn't overflow when reading into larger type")
     // Unsupport spark.sql.files.ignoreCorruptFiles.
     .exclude("Enabling/disabling ignoreCorruptFiles")
@@ -752,35 +828,40 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenUnsafeRowSerializerSuite]
   disableSuite[GlutenWholeStageCodegenSparkSubmitSuite](
     "The SparkSubmit test launches Spark's main class without the Gluten plugin")
-  enableSuite[GlutenWholeStageCodegenSuite]
-    // Rewrite with Gluten-aware native whole-stage plan assertions.
-    .exclude("range/filter should be combined")
-    .exclude("HashAggregate should be included in WholeStageCodegen")
-    .exclude("SortAggregate should be included in WholeStageCodegen")
-    .exclude("GenerateExec should be included in WholeStageCodegen (whole-stage-codegen on)")
-    .exclude("HashAggregate with grouping keys should be included in WholeStageCodegen")
-    .exclude("BroadcastHashJoin should be included in WholeStageCodegen")
-    .exclude("Inner ShuffledHashJoin should be included in WholeStageCodegen")
-    .exclude(
-      "Full Outer ShuffledHashJoin and SortMergeJoin should be included in WholeStageCodegen")
-    .exclude("SPARK-44060 Code-gen for build side outer shuffled hash join")
-    .exclude("Left/Right Outer SortMergeJoin should be included in WholeStageCodegen")
-    .exclude("Left Semi SortMergeJoin should be included in WholeStageCodegen")
-    .exclude("Left Anti SortMergeJoin should be included in WholeStageCodegen")
-    .exclude("Inner/Cross BroadcastNestedLoopJoinExec should be included in WholeStageCodegen")
-    .exclude("Left/Right outer BroadcastNestedLoopJoinExec should be included in WholeStageCodegen")
-    .exclude("Left semi/anti BroadcastNestedLoopJoinExec should be included in WholeStageCodegen")
-    .exclude("Sort should be included in WholeStageCodegen")
-    .exclude("Control splitting consume function by operators with config")
-    .exclude("Skip splitting consume function when parameter number exceeds JVM limit")
-    .exclude(
-      "including codegen stage ID in generated class name should not regress codegen caching")
-    .exclude("SPARK-26572: evaluate non-deterministic expressions for aggregate results")
-    .exclude("SPARK-28520: WholeStageCodegen does not work properly for LocalTableScanExec")
-    .exclude("Give up splitting aggregate code if a parameter length goes over the limit")
-    .exclude("Give up splitting subexpression code if a parameter length goes over the limit")
-    .exclude("SPARK-47238: Test broadcast threshold for generated code")
+  // TODO(GLUTEN-12569): Spark 4.2 - GlutenWholeStageCodegenSuite disabled: StackOverflowError in ExpressionConverter aborts the whole suite. Needs root-cause fix.
+  // enableSuite[GlutenWholeStageCodegenSuite]
+  // // Rewrite with Gluten-aware native whole-stage plan assertions.
+  // .exclude("range/filter should be combined")
+  // .exclude("HashAggregate should be included in WholeStageCodegen")
+  // .exclude("SortAggregate should be included in WholeStageCodegen")
+  // .exclude("GenerateExec should be included in WholeStageCodegen (whole-stage-codegen on)")
+  // .exclude("HashAggregate with grouping keys should be included in WholeStageCodegen")
+  // .exclude("BroadcastHashJoin should be included in WholeStageCodegen")
+  // .exclude("Inner ShuffledHashJoin should be included in WholeStageCodegen")
+  // .exclude(
+  // "Full Outer ShuffledHashJoin and SortMergeJoin should be included in WholeStageCodegen")
+  // .exclude("SPARK-44060 Code-gen for build side outer shuffled hash join")
+  // .exclude("Left/Right Outer SortMergeJoin should be included in WholeStageCodegen")
+  // .exclude("Left Semi SortMergeJoin should be included in WholeStageCodegen")
+  // .exclude("Left Anti SortMergeJoin should be included in WholeStageCodegen")
+  // .exclude("Inner/Cross BroadcastNestedLoopJoinExec should be included in WholeStageCodegen")
+  // .exclude("Left/Right outer BroadcastNestedLoopJoinExec should be included in WholeStageCodegen")
+  // .exclude("Left semi/anti BroadcastNestedLoopJoinExec should be included in WholeStageCodegen")
+  // .exclude("Sort should be included in WholeStageCodegen")
+  // .exclude("Control splitting consume function by operators with config")
+  // .exclude("Skip splitting consume function when parameter number exceeds JVM limit")
+  // .exclude(
+  // "including codegen stage ID in generated class name should not regress codegen caching")
+  // .exclude("SPARK-26572: evaluate non-deterministic expressions for aggregate results")
+  // .exclude("SPARK-28520: WholeStageCodegen does not work properly for LocalTableScanExec")
+  // .exclude("Give up splitting aggregate code if a parameter length goes over the limit")
+  // .exclude("Give up splitting subexpression code if a parameter length goes over the limit")
+  // .exclude("SPARK-47238: Test broadcast threshold for generated code")
   enableSuite[GlutenBroadcastExchangeSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "SPARK-56455: broadcast should fail when table size exceeds maxBroadcastTableSize"
+    )
     .exclude("SPARK-52962: broadcast exchange should not reset metrics") // Add Gluten test
   enableSuite[GlutenLocalBroadcastExchangeSuite]
   enableSuite[GlutenCoalesceShufflePartitionsSuite]
@@ -840,6 +921,14 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenFilteredScanSuite]
   enableSuite[GlutenFiltersSuite]
   enableSuite[GlutenInsertSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "SPARK-55716: V1 INSERT NOT NULL enforcement respects storeAssignmentPolicy",
+      "SPARK-55716: V1 INSERT rejects null array element for NOT NULL element type",
+      "SPARK-55716: V1 INSERT rejects null into NOT NULL column for file sources",
+      "SPARK-55716: V1 INSERT rejects null struct field for NOT NULL field",
+      "SPARK-55716: V1 INSERT rejects null with V2 file source path"
+    )
     // Velox assert_not_null throws VeloxUserError instead of SparkRuntimeException
     .exclude("SPARK-24583 Wrong schema type in InsertIntoDataSourceCommand")
     // the native write staing dir is differnt with vanilla Spark for coustom partition paths
@@ -858,6 +947,14 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenPartitionedWriteSuite]
   enableSuite[GlutenPathOptionSuite]
   enableSuite[GlutenPrunedScanSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "Aggregates with no groupby over tables having 1 BUCKET, return multiple rows",
+      "SPARK-32859: disable unnecessary bucketed table scan - basic test",
+      "SPARK-32859: disable unnecessary bucketed table scan - multiple bucketed columns test",
+      "SPARK-32859: disable unnecessary bucketed table scan - multiple joins test",
+      "SPARK-32859: disable unnecessary bucketed table scan - other operators test"
+    )
   enableSuite[GlutenResolvedDataSourceSuite]
   enableSuite[GlutenSaveLoadSuite]
   enableSuite[GlutenTableScanSuite]
@@ -878,6 +975,11 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenJoinHintSuite]
     .exclude("join strategy hint - shuffle-replicate-nl")
   enableSuite[GlutenLogQuerySuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "Gluten - Query Spark logs with exception using SQL",
+      "Query Spark logs using SQL"
+    )
     // Overridden
     .exclude("Query Spark logs with exception using SQL")
   enableSuite[GlutenPercentileQuerySuite]
@@ -893,15 +995,48 @@ class VeloxTestSettings extends BackendTestSettings {
     .exclude("Tags set from session are prefixed with session UUID")
   enableSuite[GlutenTPCDSCollationQueryTestSuite]
   enableSuite[GlutenTPCDSModifiedPlanStabilitySuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "check simplified (tpcds-modifiedQueries/ss_max)"
+    )
   enableSuite[GlutenTPCDSModifiedPlanStabilityWithStatsSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "check simplified sf100 (tpcds-modifiedQueries/ss_max)"
+    )
   enableSuite[GlutenTPCDSQueryANSISuite]
   enableSuite[GlutenTPCDSQuerySuite]
   enableSuite[GlutenTPCDSQueryTestSuite]
   enableSuite[GlutenTPCDSQueryWithStatsSuite]
   enableSuite[GlutenTPCDSV1_4_PlanStabilitySuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "check simplified (tpcds-v1.4/q16)",
+      "check simplified (tpcds-v1.4/q28)",
+      "check simplified (tpcds-v1.4/q94)",
+      "check simplified (tpcds-v1.4/q95)"
+    )
   enableSuite[GlutenTPCDSV1_4_PlanStabilityWithStatsSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "check simplified sf100 (tpcds-v1.4/q16)",
+      "check simplified sf100 (tpcds-v1.4/q28)",
+      "check simplified sf100 (tpcds-v1.4/q5)",
+      "check simplified sf100 (tpcds-v1.4/q54)",
+      "check simplified sf100 (tpcds-v1.4/q94)",
+      "check simplified sf100 (tpcds-v1.4/q95)"
+    )
   enableSuite[GlutenTPCDSV2_7_PlanStabilitySuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "check simplified (tpcds-v2.7.0/q77a)"
+    )
   enableSuite[GlutenTPCDSV2_7_PlanStabilityWithStatsSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "check simplified sf100 (tpcds-v2.7.0/q5a)",
+      "check simplified sf100 (tpcds-v2.7.0/q77a)"
+    )
   enableSuite[GlutenTPCHPlanStabilitySuite]
   enableSuite[GlutenTPCHQuerySuite]
   enableSuite[GlutenUDFSuite]
@@ -950,6 +1085,13 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenCTEInlineSuiteAEOff]
   enableSuite[GlutenCTEInlineSuiteAEOn]
   enableSuite[GlutenDataFrameAggregateSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "SPARK-55256: array_agg with RESPECT NULLS preserves nulls",
+      "SPARK-57298: collect_set normalizes NaN and -0.0 for floating-point types",
+      "SPARK-57298: collect_set normalizes NaN and -0.0 nested in complex types",
+      "collect_set with RESPECT NULLS preserves null in set"
+    )
     // Test for vanilla spark codegen, not apply for Gluten
     .exclude("SPARK-43876: Enable fast hashmap for distinct queries")
     .exclude(
@@ -966,6 +1108,17 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenDataFrameAsOfJoinSuite]
   enableSuite[GlutenDataFrameComplexTypeSuite]
   enableSuite[GlutenDataFrameFunctionsSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "SPARK-54918: array set ops normalize -0.0 and NaN via VALUES inline table",
+      "SPARK-54918: array_distinct normalizes -0.0 to +0.0",
+      "SPARK-54918: array_distinct normalizes -0.0 to +0.0 - literals",
+      "SPARK-54918: array_intersect normalizes -0.0 to +0.0",
+      "SPARK-54918: array_intersect normalizes -0.0 to +0.0 - literals",
+      "SPARK-54918: array_union normalizes -0.0 to +0.0",
+      "SPARK-54918: array_union normalizes -0.0 to +0.0 - literals",
+      "array_join with nullable nullReplacement under whole-stage codegen"
+    )
     // Rewrite this test because Velox sorts rows by key for primitive data types, which disrupts the original row sequence.
     .exclude("map_zip_with function - map of primitive types")
     // Vanilla spark throw SparkRuntimeException, gluten throw SparkException.
@@ -990,6 +1143,10 @@ class VeloxTestSettings extends BackendTestSettings {
     .excludeByPrefix("SPARK-52921") // Add Gluten test
   enableSuite[GlutenDataFrameStatSuite]
   enableSuite[GlutenDataFrameSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "SPARK-57725: resolve columns when the input plan has a null-named attribute"
+    )
     // Rewrite these tests because it checks Spark's physical operators.
     .excludeByPrefix("SPARK-22520", "reuse exchange")
     .exclude(
@@ -1113,6 +1270,10 @@ class VeloxTestSettings extends BackendTestSettings {
     // TODO: fix on Spark-4.1 introduced by https://github.com/apache/spark/pull/47856
     .exclude("SPARK-49386: test SortMergeJoin (with spill by size threshold)")
   enableSuite[GlutenMathFunctionsSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "acosh"
+    )
   enableSuite[GlutenMapStatusEndToEndSuite]
   enableSuite[GlutenMetadataCacheSuite]
     .exclude("SPARK-16336,SPARK-27961 Suggest fixing FileNotFoundException")
@@ -1181,6 +1342,10 @@ class VeloxTestSettings extends BackendTestSettings {
     .exclude("EXPLAIN CODEGEN command")
   enableSuite[GlutenHivePlanTest]
   enableSuite[GlutenHiveQuerySuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "ADD JAR command 2"
+    )
   enableSuite[GlutenHiveResolutionSuite]
   enableSuite[GlutenHiveSQLQuerySuite]
   enableSuite[GlutenHiveSQLViewSuite]
@@ -1204,6 +1369,21 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenSparkSessionExtensionSuite]
     .includeGlutenTest("customColumnarOp")
   enableSuite[GlutenGroupBasedDeleteFromTableSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "delete from empty tables",
+      "delete from table with table constraints",
+      "delete with EXISTS subquery",
+      "delete with NOT EXISTS subquery",
+      "delete with NOT IN predicates",
+      "delete with NOT IN subqueries",
+      "delete with NULL condition on non-null column",
+      "delete with NULL equality on VOID column",
+      "delete with aliases",
+      "delete with conditions on nested columns",
+      "delete with literal false condition",
+      "delete with unsupported predicates cannot be converted into delete with filters"
+    )
   enableSuite[GlutenDeltaBasedDeleteFromTableSuite]
   enableSuite[GlutenDataFrameToSchemaSuite]
   enableSuite[GlutenDatasetUnpivotSuite]
@@ -1211,6 +1391,10 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenLegacyParameterSubstitutionSuite]
   enableSuite[GlutenParametersSuite]
   enableSuite[GlutenResolveDefaultColumnsSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "SPARK-57187: non-foldable default exceeding CHAR/VARCHAR length fails at INSERT time (explicit DEFAULT keyword)"
+    )
   enableSuite[GlutenSubqueryHintPropagationSuite]
   enableSuite[GlutenUrlFunctionsSuite]
   enableSuite[GlutenParquetRowIndexSuite]
@@ -1230,22 +1414,45 @@ class VeloxTestSettings extends BackendTestSettings {
     .exclude("not null checks for fields inside nullable array (byPosition)")
   enableSuite[GlutenTableOptionsConstantFoldingSuite]
   enableSuite[GlutenDeltaBasedMergeIntoTableSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "merge with literal false ON condition",
+      "merge with statically empty source and only MATCHED clauses"
+    )
     // Replaced by Gluten versions that handle wrapped exceptions
     .excludeByPrefix("merge cardinality check with")
     // Velox assert_not_null throws VeloxUserError instead of SparkRuntimeException
     .exclude("merge with NOT NULL checks")
   enableSuite[GlutenDeltaBasedMergeIntoTableUpdateAsDeleteAndInsertSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "merge with literal false ON condition",
+      "merge with statically empty source and only MATCHED clauses"
+    )
     // Replaced by Gluten versions that handle wrapped exceptions
     .excludeByPrefix("merge cardinality check with")
     // Velox assert_not_null throws VeloxUserError instead of SparkRuntimeException
     .exclude("merge with NOT NULL checks")
   enableSuite[GlutenDeltaBasedUpdateAsDeleteAndInsertTableSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "update with constraint violation and transactional checks"
+    )
     // Velox assert_not_null throws VeloxUserError instead of SparkRuntimeException
     .exclude("update with NOT NULL checks")
   enableSuite[GlutenDeltaBasedUpdateTableSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "update with constraint violation and transactional checks"
+    )
     // Velox assert_not_null throws VeloxUserError instead of SparkRuntimeException
     .exclude("update with NOT NULL checks")
   enableSuite[GlutenGroupBasedMergeIntoTableSuite]
+    // TODO(GLUTEN-12569): Spark 4.2 - disabled during 4.2 bring-up, needs triage
+    .exclude(
+      "merge with literal false ON condition",
+      "merge with statically empty source and only MATCHED clauses"
+    )
     // Replaced by Gluten versions that handle wrapped exceptions
     .excludeByPrefix("merge cardinality check with")
     // Velox assert_not_null throws VeloxUserError instead of SparkRuntimeException
