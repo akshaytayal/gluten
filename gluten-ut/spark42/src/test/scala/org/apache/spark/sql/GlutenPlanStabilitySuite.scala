@@ -50,7 +50,7 @@ import scala.collection.mutable
  *
  *   # Generate all 7 suites at once (recommended for consistency)
  *   ./dev/run-scala-test.sh --mvnd --clean \
- *     -Pjava-17,spark-4.2,scala-2.13,backends-velox,hadoop-3.3,spark-ut,delta \
+ *     -Pjava-17,spark-4.2,scala-2.13,backends-velox,hadoop-3.3,spark-ut \
  *     -pl gluten-ut/spark42 \
  *     -s org.apache.spark.sql.GlutenTPCDSV1_4_PlanStabilitySuite \
  *     -s org.apache.spark.sql.GlutenTPCDSV1_4_PlanStabilityWithStatsSuite \
