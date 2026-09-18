@@ -14,21 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.spark.sql.catalyst.expressions
+package org.apache.gluten.utils
 
 import org.apache.spark.sql.catalyst.InternalRow
-import org.apache.spark.sql.catalyst.expressions.codegen.{CodegenContext, ExprCode}
-import org.apache.spark.sql.types._
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
+import org.apache.spark.sql.types.StructType
 
-case class PromotePrecision(child: Expression) extends UnaryExpression {
-  override def dataType: DataType = child.dataType
-  override def eval(input: InternalRow): Any = child.eval(input)
-  override protected def doGenCode(ctx: CodegenContext, ev: ExprCode): ExprCode =
-    child.genCode(ctx)
-  override def prettyName: String = "promote_precision"
-  override def sql: String = child.sql
-  override lazy val canonicalized: Expression = child.canonicalized
+object InternalRowUtil {
+  def toString(struct: StructType, rows: Iterator[InternalRow]): String = {
+    val encoder = ExpressionEncoder(struct).resolveAndBind()
+    val deserializer = encoder.createDeserializer()
+    rows.map(deserializer).mkString(System.lineSeparator())
+  }
 
-  override protected def withNewChildInternal(newChild: Expression): Expression =
-    copy(child = newChild)
+  def toString(struct: StructType, rows: Iterator[InternalRow], start: Int, length: Int): String = {
+    toString(struct, rows.slice(start, start + length))
+  }
 }

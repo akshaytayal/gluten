@@ -14,21 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.spark.sql.catalyst.expressions
+package org.apache.spark.sql.catalyst.optimizer
 
-import org.apache.spark.sql.catalyst.InternalRow
-import org.apache.spark.sql.catalyst.expressions.codegen.{CodegenContext, ExprCode}
-import org.apache.spark.sql.types._
+import org.apache.spark.sql.catalyst.expressions.{Expression, NamedExpression}
 
-case class PromotePrecision(child: Expression) extends UnaryExpression {
-  override def dataType: DataType = child.dataType
-  override def eval(input: InternalRow): Any = child.eval(input)
-  override protected def doGenCode(ctx: CodegenContext, ev: ExprCode): ExprCode =
-    child.genCode(ctx)
-  override def prettyName: String = "promote_precision"
-  override def sql: String = child.sql
-  override lazy val canonicalized: Expression = child.canonicalized
+object CollapseProjectShim {
+  def canCollapseExpressions(
+      consumers: Seq[Expression],
+      producers: Seq[NamedExpression],
+      alwaysInline: Boolean): Boolean = {
+    CollapseProject.canCollapseExpressions(consumers, producers, alwaysInline)
+  }
 
-  override protected def withNewChildInternal(newChild: Expression): Expression =
-    copy(child = newChild)
+  def buildCleanedProjectList(
+      upper: Seq[NamedExpression],
+      lower: Seq[NamedExpression]): Seq[NamedExpression] = {
+    CollapseProject.buildCleanedProjectList(upper, lower)
+  }
 }

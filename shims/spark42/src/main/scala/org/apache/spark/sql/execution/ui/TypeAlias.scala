@@ -14,21 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.spark.sql.catalyst.expressions
+package org.apache.spark.sql.execution.ui
 
-import org.apache.spark.sql.catalyst.InternalRow
-import org.apache.spark.sql.catalyst.expressions.codegen.{CodegenContext, ExprCode}
-import org.apache.spark.sql.types._
-
-case class PromotePrecision(child: Expression) extends UnaryExpression {
-  override def dataType: DataType = child.dataType
-  override def eval(input: InternalRow): Any = child.eval(input)
-  override protected def doGenCode(ctx: CodegenContext, ev: ExprCode): ExprCode =
-    child.genCode(ctx)
-  override def prettyName: String = "promote_precision"
-  override def sql: String = child.sql
-  override lazy val canonicalized: Expression = child.canonicalized
-
-  override protected def withNewChildInternal(newChild: Expression): Expression =
-    copy(child = newChild)
+/**
+ * Ensures compatibility for the type HttpServletRequest across Spark 4.0 and earlier versions.
+ * Starting from Spark 4.0, `jakarta.servlet.http.HttpServletRequest` is used.
+ */
+object TypeAlias {
+  type HttpServletRequest = jakarta.servlet.http.HttpServletRequest
 }

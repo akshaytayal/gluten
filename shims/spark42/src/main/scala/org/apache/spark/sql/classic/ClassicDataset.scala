@@ -14,21 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.spark.sql.catalyst.expressions
+package org.apache.spark.sql.classic
 
-import org.apache.spark.sql.catalyst.InternalRow
-import org.apache.spark.sql.catalyst.expressions.codegen.{CodegenContext, ExprCode}
-import org.apache.spark.sql.types._
+import org.apache.spark.sql.catalyst.plans.logical.LogicalPlan
+import org.apache.spark.sql.classic
 
-case class PromotePrecision(child: Expression) extends UnaryExpression {
-  override def dataType: DataType = child.dataType
-  override def eval(input: InternalRow): Any = child.eval(input)
-  override protected def doGenCode(ctx: CodegenContext, ev: ExprCode): ExprCode =
-    child.genCode(ctx)
-  override def prettyName: String = "promote_precision"
-  override def sql: String = child.sql
-  override lazy val canonicalized: Expression = child.canonicalized
-
-  override protected def withNewChildInternal(newChild: Expression): Expression =
-    copy(child = newChild)
+/** Since Spark 4.0, the method ofRows cannot be invoked directly from sql.Dataset. */
+object ClassicDataset {
+  def ofRows(sparkSession: classic.SparkSession, logicalPlan: LogicalPlan): DataFrame = {
+    // Redirect to the classic.Dataset companion method.
+    classic.Dataset.ofRows(sparkSession, logicalPlan)
+  }
 }
