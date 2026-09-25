@@ -1246,6 +1246,21 @@ jobs:
           cd $GITHUB_WORKSPACE/
           $MVN_CMD clean test-compile -Pspark-4.0 -Pscala-2.13 -Pbackends-velox -Pspark-ut -Piceberg,iceberg-test,delta,paimon -Pfast-build
 
+  build-test-spark42:
+    needs: detect-changes
+    if: >-
+      needs.detect-changes.outputs.java == 'true' ||
+      needs.detect-changes.outputs.shims42 == 'true' ||
+      needs.detect-changes.outputs.cpp == 'true'
+    runs-on: ubuntu-22.04
+    container: apache/gluten:centos-8-jdk17
+    steps:
+      - uses: actions/checkout@v7
+      - name: Compile Spark 4.2 shim (Java 17, Scala 2.13)
+        run: |
+          cd $GITHUB_WORKSPACE/
+          $MVN_CMD clean test-compile -Pspark-4.2 -Pscala-2.13 -Pjava-17 -Pbackends-velox -pl shims/spark42 -am -DskipTests
+
   spark-test-spark40:
     needs: [detect-changes, build-native-lib-centos-8]
     if: >-
