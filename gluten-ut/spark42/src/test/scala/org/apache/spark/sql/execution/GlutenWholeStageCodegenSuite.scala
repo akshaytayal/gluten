@@ -27,7 +27,7 @@ import org.apache.spark.sql.types.{IntegerType, StringType, StructType}
 
 import scala.reflect.ClassTag
 
-// GLUTEN-12569 Spark 4.2 UT enablement: disabled whole suite — a test triggers a
+// GLUTEN-12569 Spark 4.2 UT enablement: disabled whole suite - a test triggers a
 // StackOverflowError in Gluten ExpressionConverter.transformExpression that aborts the
 // entire group2 CI run. Disabled here so the rest of the group can run and be triaged.
 @org.scalatest.Ignore
