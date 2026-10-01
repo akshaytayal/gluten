@@ -57,12 +57,6 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenBloomFilterAggregateQuerySuiteCGOff]
   enableSuite[GlutenDataSourceV2DataFrameSessionCatalogSuite]
   enableSuite[GlutenDataSourceV2DataFrameSuite]
-    .exclude(
-      "test default value special column name conflicting with real column name: CREATE"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "test default value special column name conflicting with real column name: REPLACE"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenDataSourceV2FunctionSuite]
   enableSuite[GlutenDataSourceV2SQLSessionCatalogSuite]
   enableSuite[GlutenDataSourceV2SQLSuiteV1Filter]
@@ -73,49 +67,10 @@ class VeloxTestSettings extends BackendTestSettings {
     // Rewrite the following tests in GlutenDataSourceV2Suite.
     .exclude("partitioning reporting")
     .exclude("ordering and partitioning reporting")
-    .exclude(
-      "Gluten - partitioning reporting"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - ordering and partitioning reporting"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenDeleteFromTableSuite]
-    .exclude(
-      "delete from table with table constraints"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("delete from empty tables") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with literal false condition"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with NULL equality on VOID column"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with NULL condition on non-null column"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("delete with aliases") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with NOT IN predicates"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with conditions on nested columns"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with NOT IN subqueries"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("delete with EXISTS subquery") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with NOT EXISTS subquery"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with unsupported predicates cannot be converted into delete with filters"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenFileDataSourceV2FallBackSuite]
     // Rewritten
     .exclude("Fallback Parquet V2 to V1")
-    .exclude(
-      "Gluten - Fallback Parquet V2 to V1"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenKeyGroupedPartitioningSuite]
     // NEW SUITE: disable as they check vanilla spark plan
     .exclude("partitioned join: number of buckets mismatch should trigger shuffle")
@@ -132,75 +87,6 @@ class VeloxTestSettings extends BackendTestSettings {
     .excludeByPrefix("SPARK-41413: partitioned join:")
     .excludeByPrefix("SPARK-42038: partially clustered:")
     .exclude("SPARK-44641: duplicated records when SPJ is not triggered")
-    .exclude(
-      "Gluten - partitioned join: only one side reports partitioning"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-41413: partitioned join: partition values from one side are subset of those from the other side"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-41413: partitioned join: partition values from both sides overlaps"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-41413: partitioned join: non-overlapping partition values from both sides"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-42038: partially clustered: with same partition keys and one side fully clustered"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-42038: partially clustered: with same partition keys and both sides partially clustered"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-42038: partially clustered: with different partition keys and both sides partially clustered"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-42038: partially clustered: with different partition keys and missing keys on left-hand side"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-42038: partially clustered: with different partition keys and missing keys on right-hand side"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-42038: partially clustered: left outer join"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-42038: partially clustered: right outer join"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-42038: partially clustered: full outer join is not applicable"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-44641: duplicated records when SPJ is not triggered"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - partitioned join: join with two partition keys and different # of partition keys"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-44647: SPJ: test join key is subset of cluster key with push values and partially-clustered"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-44647: test join key is the second cluster key"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-44647: test join key is the second partition key and a transform"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-47094: Compatible buckets does not support SPJ with push-down values or partially-clustered"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-47094: SPJ: Does not trigger when incompatible number of buckets on both side"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-48655: order by on partition keys should not introduce additional shuffle"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-53322: checkpointed scans aren't used for SPJ"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-53322: checkpointed scans can't shuffle other children on SPJ"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-53322: checkpointed scans can be shuffled by children on SPJ"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenLocalScanSuite]
   enableSuite[GlutenMetadataColumnSuite]
   enableSuite[GlutenSupportsCatalogOptionsSuite]
@@ -235,18 +121,6 @@ class VeloxTestSettings extends BackendTestSettings {
     // assertion: collect() -> toJavaTimestamp -> rebaseGregorianToJulianMicros overflows.
     .exclude("cast from timestamp II")
     .exclude("SPARK-39749: cast Decimal to string")
-    .exclude("null cast") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "SPARK-27671: cast from nested null type in struct"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("cast string to time") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "SPARK-51562: cast alias - time function"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("cast time to time") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "cast invalid string input to time"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenTryCastSuite]
     .exclude(
       "Process Infinity, -Infinity, NaN in case insensitive manner" // +inf not supported in folly.
@@ -258,18 +132,6 @@ class VeloxTestSettings extends BackendTestSettings {
     .exclude("cast string to timestamp")
     // TODO: fix after https://github.com/facebookincubator/velox/pull/14910
     .exclude("SPARK-39749: cast Decimal to string")
-    .exclude("null cast") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "SPARK-27671: cast from nested null type in struct"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("cast string to time") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "SPARK-51562: cast alias - time function"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("cast time to time") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "cast invalid string input to time"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenCollectionExpressionsSuite]
     // Rewrite in Gluten to replace Seq with Array
     .exclude("Shuffle")
@@ -302,9 +164,6 @@ class VeloxTestSettings extends BackendTestSettings {
     .excludeGlutenTest("from_unixtime")
     // Replaced by a gluten test to pass timezone through config.
     .exclude("months_between")
-    .exclude(
-      "Gluten - SPARK-42635: timestampadd near daylight saving transition"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenDecimalExpressionSuite]
   enableSuite[GlutenDecimalPrecisionSuite]
   enableSuite[GlutenGeneratorExpressionSuite]
@@ -329,10 +188,6 @@ class VeloxTestSettings extends BackendTestSettings {
     .exclude("$.store.basket[0][*].b")
     // Exception class different.
     .exclude("from_json - invalid data")
-    .exclude(
-      "from_json/to_json with TIME type - all precisions"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("TIME type with arrays") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenJsonFunctionsSuite]
     // * in get_json_object expression not supported in velox
     .exclude("SPARK-42782: Hive compatibility check for get_json_object")
@@ -345,18 +200,9 @@ class VeloxTestSettings extends BackendTestSettings {
     .exclude("default")
     // FIXME(yma11): ObjectType is not covered in RowEncoder/Serializer in vanilla spark
     .exclude("SPARK-37967: Literal.create support ObjectType")
-    .exclude(
-      "construct literals from arrays of java.time.LocalTime"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "SPARK-35871: Literal.create(value, dataType) should support fields"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenMathExpressionsSuite]
     // Spark round UT for round(3.1415,3) is not correct.
     .exclude("round/bround/floor/ceil")
-    .exclude(
-      "Gluten - round/bround/floor/ceil"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenMiscExpressionsSuite]
   enableSuite[GlutenNondeterministicSuite]
     .exclude("MonotonicallyIncreasingID")
@@ -373,14 +219,6 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenSortOrderExpressionsSuite]
   enableSuite[GlutenStringExpressionsSuite]
   enableSuite[GlutenTimeExpressionsSuite]
-    .exclude("ParseToTime") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("HourExpressionBuilder") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("MinuteExpressionBuilder") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Second with fraction from  TIME type"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("SPARK-51554: TimeTrunc") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("Numeric to TIME conversions") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenTryEvalSuite]
   // Generated suites for org.apache.spark.sql.catalyst.expressions
   enableSuite[GlutenAttributeResolutionSuite]
@@ -398,9 +236,6 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenCollationExpressionSuite]
   // TODO: 4.x enableSuite[GlutenCollationRegexpExpressionsSuite]  // fix after https://github.com/facebookincubator/velox/pull/17327
   enableSuite[GlutenCsvExpressionsSuite]
-    .exclude(
-      "from_csv/to_csv with TIME type - all precisions"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenDynamicPruningSubquerySuite]
   enableSuite[GlutenExprIdSuite]
   disableSuite[GlutenExpressionEvalHelperSuite](
@@ -417,12 +252,6 @@ class VeloxTestSettings extends BackendTestSettings {
     "Object/encoder interpreted execution is JVM-side coverage and currently fails under " +
       "Gluten's expression evaluation harness")
   enableSuite[GlutenOrderingSuite]
-    .exclude(
-      "GenerateOrdering with TimeType(0)"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "GenerateOrdering with TimeType(6)"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   disableSuite[GlutenScalaUDFSuite](
     "ScalaUDF executes on the JVM/fallback path, so this parent suite has limited Velox " +
       "coverage value and still has one inherited failure")
@@ -439,20 +268,13 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenValidateExternalTypeSuite]
   enableSuite[GlutenXmlExpressionsSuite]
     .exclude("from_xml- invalid data")
-    // Generated suites for org.apache.spark.sql.connector
-    .exclude(
-      "from_xml/to_xml with TIME type - all precisions"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("TIME type with arrays") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+  // Generated suites for org.apache.spark.sql.connector
   enableSuite[GlutenDataSourceV2MetricsSuite]
   enableSuite[GlutenDataSourceV2OptionSuite]
   enableSuite[GlutenDataSourceV2UtilsSuite]
   enableSuite[GlutenGroupBasedUpdateTableSuite]
     // Velox assert_not_null throws VeloxUserError instead of SparkRuntimeException
     .exclude("update with NOT NULL checks")
-    .exclude(
-      "Gluten - update with NOT NULL checks"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenMergeIntoDataFrameSuite]
   enableSuite[GlutenProcedureSuite]
   enableSuite[GlutenPushablePredicateSuite]
@@ -965,9 +787,6 @@ class VeloxTestSettings extends BackendTestSettings {
     .exclude("test with low buffer spill threshold")
   enableSuite[GlutenTakeOrderedAndProjectSuite]
   enableSuite[GlutenSessionExtensionSuite]
-    .exclude(
-      "Gluten - test gluten extensions"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenBucketedReadWithoutHiveSupportSuite]
     // Exclude the following suite for plan changed from SMJ to SHJ.
     .exclude("avoid shuffle when join 2 bucketed tables")
@@ -1020,31 +839,7 @@ class VeloxTestSettings extends BackendTestSettings {
     .exclude("SPARK-39557 INSERT INTO statements with tables with array defaults")
     .exclude("SPARK-39557 INSERT INTO statements with tables with struct defaults")
     .exclude("SPARK-39557 INSERT INTO statements with tables with map defaults")
-    .exclude(
-      "Gluten - insert partition table"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - remove v1writes sort and project"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - remove v1writes sort"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - do not remove non-v1writes sort and project"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - SPARK-35106: Throw exception when rename custom partition paths returns false"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - Do not fallback write files if output columns contain Spark internal metadata"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "Gluten - Add metadata white list to allow native write files"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenPartitionedWriteSuite]
-    .exclude(
-      "Dynamic writes/reads of TIME partitions"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenPathOptionSuite]
   enableSuite[GlutenPrunedScanSuite]
   enableSuite[GlutenResolvedDataSourceSuite]
@@ -1393,42 +1188,9 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenSQLQuerySuiteAE]
   enableSuite[GlutenWindowQuerySuite]
   enableSuite[GlutenCollapseProjectExecTransformerSuite]
-    .exclude(
-      "Gluten - Support ProjectExecTransformer collapse"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenSparkSessionExtensionSuite]
     .includeGlutenTest("customColumnarOp")
   enableSuite[GlutenGroupBasedDeleteFromTableSuite]
-    .exclude(
-      "delete from table with table constraints"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("delete from empty tables") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with literal false condition"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with NULL equality on VOID column"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with NULL condition on non-null column"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("delete with aliases") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with NOT IN predicates"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with conditions on nested columns"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with NOT IN subqueries"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude("delete with EXISTS subquery") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with NOT EXISTS subquery"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "delete with unsupported predicates cannot be converted into delete with filters"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenDeltaBasedDeleteFromTableSuite]
   enableSuite[GlutenDataFrameToSchemaSuite]
   enableSuite[GlutenDatasetUnpivotSuite]
@@ -1465,23 +1227,11 @@ class VeloxTestSettings extends BackendTestSettings {
     .excludeByPrefix("merge cardinality check with")
     // Velox assert_not_null throws VeloxUserError instead of SparkRuntimeException
     .exclude("merge with NOT NULL checks")
-    .exclude(
-      "merge with literal false ON condition"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "merge with statically empty source and only MATCHED clauses"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenDeltaBasedMergeIntoTableUpdateAsDeleteAndInsertSuite]
     // Replaced by Gluten versions that handle wrapped exceptions
     .excludeByPrefix("merge cardinality check with")
     // Velox assert_not_null throws VeloxUserError instead of SparkRuntimeException
     .exclude("merge with NOT NULL checks")
-    .exclude(
-      "merge with literal false ON condition"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "merge with statically empty source and only MATCHED clauses"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenDeltaBasedUpdateAsDeleteAndInsertTableSuite]
     // Velox assert_not_null throws VeloxUserError instead of SparkRuntimeException
     .exclude("update with NOT NULL checks")
@@ -1493,12 +1243,6 @@ class VeloxTestSettings extends BackendTestSettings {
     .excludeByPrefix("merge cardinality check with")
     // Velox assert_not_null throws VeloxUserError instead of SparkRuntimeException
     .exclude("merge with NOT NULL checks")
-    .exclude(
-      "merge with literal false ON condition"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
-    .exclude(
-      "merge with statically empty source and only MATCHED clauses"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenFileSourceCustomMetadataStructSuite]
   enableSuite[GlutenParquetFileMetadataStructRowIndexSuite]
   enableSuite[GlutenTableLocationSuite]
