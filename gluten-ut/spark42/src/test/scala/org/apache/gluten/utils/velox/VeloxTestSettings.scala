@@ -121,6 +121,18 @@ class VeloxTestSettings extends BackendTestSettings {
     // assertion: collect() -> toJavaTimestamp -> rebaseGregorianToJulianMicros overflows.
     .exclude("cast from timestamp II")
     .exclude("SPARK-39749: cast Decimal to string")
+    .exclude("null cast") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude(
+      "SPARK-27671: cast from nested null type in struct"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude("cast string to time") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude(
+      "SPARK-51562: cast alias - time function"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude("cast time to time") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude(
+      "cast invalid string input to time"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenTryCastSuite]
     .exclude(
       "Process Infinity, -Infinity, NaN in case insensitive manner" // +inf not supported in folly.
@@ -132,6 +144,18 @@ class VeloxTestSettings extends BackendTestSettings {
     .exclude("cast string to timestamp")
     // TODO: fix after https://github.com/facebookincubator/velox/pull/14910
     .exclude("SPARK-39749: cast Decimal to string")
+    .exclude("null cast") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude(
+      "SPARK-27671: cast from nested null type in struct"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude("cast string to time") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude(
+      "SPARK-51562: cast alias - time function"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude("cast time to time") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude(
+      "cast invalid string input to time"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenCollectionExpressionsSuite]
     // Rewrite in Gluten to replace Seq with Array
     .exclude("Shuffle")
@@ -164,6 +188,9 @@ class VeloxTestSettings extends BackendTestSettings {
     .excludeGlutenTest("from_unixtime")
     // Replaced by a gluten test to pass timezone through config.
     .exclude("months_between")
+    .exclude(
+      "Gluten - SPARK-42635: timestampadd near daylight saving transition"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenDecimalExpressionSuite]
   enableSuite[GlutenDecimalPrecisionSuite]
   enableSuite[GlutenGeneratorExpressionSuite]
@@ -188,6 +215,10 @@ class VeloxTestSettings extends BackendTestSettings {
     .exclude("$.store.basket[0][*].b")
     // Exception class different.
     .exclude("from_json - invalid data")
+    .exclude(
+      "from_json/to_json with TIME type - all precisions"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude("TIME type with arrays") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenJsonFunctionsSuite]
     // * in get_json_object expression not supported in velox
     .exclude("SPARK-42782: Hive compatibility check for get_json_object")
@@ -200,9 +231,18 @@ class VeloxTestSettings extends BackendTestSettings {
     .exclude("default")
     // FIXME(yma11): ObjectType is not covered in RowEncoder/Serializer in vanilla spark
     .exclude("SPARK-37967: Literal.create support ObjectType")
+    .exclude(
+      "construct literals from arrays of java.time.LocalTime"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude(
+      "SPARK-35871: Literal.create(value, dataType) should support fields"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenMathExpressionsSuite]
     // Spark round UT for round(3.1415,3) is not correct.
     .exclude("round/bround/floor/ceil")
+    .exclude(
+      "Gluten - round/bround/floor/ceil"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenMiscExpressionsSuite]
   enableSuite[GlutenNondeterministicSuite]
     .exclude("MonotonicallyIncreasingID")
@@ -219,6 +259,14 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenSortOrderExpressionsSuite]
   enableSuite[GlutenStringExpressionsSuite]
   enableSuite[GlutenTimeExpressionsSuite]
+    .exclude("ParseToTime") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude("HourExpressionBuilder") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude("MinuteExpressionBuilder") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude(
+      "Second with fraction from  TIME type"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude("SPARK-51554: TimeTrunc") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude("Numeric to TIME conversions") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenTryEvalSuite]
   // Generated suites for org.apache.spark.sql.catalyst.expressions
   enableSuite[GlutenAttributeResolutionSuite]
@@ -236,6 +284,9 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenCollationExpressionSuite]
   // TODO: 4.x enableSuite[GlutenCollationRegexpExpressionsSuite]  // fix after https://github.com/facebookincubator/velox/pull/17327
   enableSuite[GlutenCsvExpressionsSuite]
+    .exclude(
+      "from_csv/to_csv with TIME type - all precisions"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenDynamicPruningSubquerySuite]
   enableSuite[GlutenExprIdSuite]
   disableSuite[GlutenExpressionEvalHelperSuite](
@@ -252,6 +303,12 @@ class VeloxTestSettings extends BackendTestSettings {
     "Object/encoder interpreted execution is JVM-side coverage and currently fails under " +
       "Gluten's expression evaluation harness")
   enableSuite[GlutenOrderingSuite]
+    .exclude(
+      "GenerateOrdering with TimeType(0)"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude(
+      "GenerateOrdering with TimeType(6)"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   disableSuite[GlutenScalaUDFSuite](
     "ScalaUDF executes on the JVM/fallback path, so this parent suite has limited Velox " +
       "coverage value and still has one inherited failure")
@@ -268,7 +325,11 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenValidateExternalTypeSuite]
   enableSuite[GlutenXmlExpressionsSuite]
     .exclude("from_xml- invalid data")
-  // Generated suites for org.apache.spark.sql.connector
+    // Generated suites for org.apache.spark.sql.connector
+    .exclude(
+      "from_xml/to_xml with TIME type - all precisions"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
+    .exclude("TIME type with arrays") // GLUTEN-12569 Spark 4.2 UT enablement (local-triaged)
   enableSuite[GlutenDataSourceV2MetricsSuite]
   enableSuite[GlutenDataSourceV2OptionSuite]
   enableSuite[GlutenDataSourceV2UtilsSuite]
