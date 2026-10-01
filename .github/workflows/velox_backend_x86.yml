@@ -1543,6 +1543,9 @@ jobs:
           pip3 install setuptools==77.0.3 && \
           pip3 install pyspark==3.5.5 cython && \
           pip3 install pandas==2.2.3 pyarrow==20.0.0
+      - name: Prepare spark.test.home for Spark 4.2
+        run: |
+          bash .github/workflows/util/install-spark-resources.sh 4.2
       - name: Build and Run unit test for Spark 4.2.0 with scala-2.13 (other tests, group ${{ matrix.group }})
         run: |
           cd $GITHUB_WORKSPACE/
@@ -1606,6 +1609,9 @@ jobs:
         with:
           name: velox-native-lib-centos-8-${{github.sha}}
           path: ./cpp/build/releases/
+      - name: Prepare spark.test.home for Spark 4.2
+        run: |
+          bash .github/workflows/util/install-spark-resources.sh 4.2
       - name: Build and Run unit test for Spark 4.2 (slow tests, ${{ matrix.suite }})
         run: |
           cd $GITHUB_WORKSPACE/
