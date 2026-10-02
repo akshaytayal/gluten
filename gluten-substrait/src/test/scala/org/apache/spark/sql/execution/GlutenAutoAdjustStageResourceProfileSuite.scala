@@ -112,7 +112,7 @@ class GlutenAutoAdjustStageResourceProfileSuite extends AnyFunSuite {
     }
   }
 
-  ignore("updateResourceSetting rejects a non-positive task cpus") {
+  test("updateResourceSetting rejects a non-positive task cpus") {
     // The profile's own task cpus wins when present, as the two tests above rely on, so the profile
     // here carries none and the conf fallback decides.
     val ereqs = new ExecutorResourceRequests()
@@ -123,7 +123,12 @@ class GlutenAutoAdjustStageResourceProfileSuite extends AnyFunSuite {
     SQLConf.withExistingConf(new SQLConf) {
       val e = intercept[IllegalArgumentException](
         GlutenAutoAdjustStageResourceProfile.updateResourceSetting(rp, sparkConf))
-      assert(e.getMessage.contains("spark.task.cpus should be positive"))
+      // Spark 4.2 reports this via the structured CPUS_PER_TASK checkValue
+      // ("...config \"spark.task.cpus\"...should be positive"), while earlier Spark
+      // versions use Gluten's own "spark.task.cpus should be positive" message. Assert
+      // the key and the requirement independently so both wordings pass.
+      assert(e.getMessage.contains("spark.task.cpus"))
+      assert(e.getMessage.contains("positive"))
     }
   }
 }
