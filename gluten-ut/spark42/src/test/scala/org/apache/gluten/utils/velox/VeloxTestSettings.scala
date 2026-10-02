@@ -965,6 +965,21 @@ class VeloxTestSettings extends BackendTestSettings {
   disableSuite[GlutenDisableUnnecessaryBucketedScanWithoutHiveSupportSuite](
     "GLUTEN-4893: Vanilla UT checks scan operator by exactly matching the class type")
   enableSuite[GlutenDisableUnnecessaryBucketedScanWithoutHiveSupportSuiteAE]
+    .exclude(
+      "Aggregates with no groupby over tables having 1 BUCKET, return multiple rows"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
+    .exclude(
+      "SPARK-32859: disable unnecessary bucketed table scan - basic test"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
+    .exclude(
+      "SPARK-32859: disable unnecessary bucketed table scan - multiple bucketed columns test"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
+    .exclude(
+      "SPARK-32859: disable unnecessary bucketed table scan - multiple joins test"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
+    .exclude(
+      "SPARK-32859: disable unnecessary bucketed table scan - other operators test"
+    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
   enableSuite[GlutenExternalCommandRunnerSuite]
   enableSuite[GlutenFilteredScanSuite]
   enableSuite[GlutenFiltersSuite]
@@ -1005,21 +1020,6 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenPartitionedWriteSuite]
   enableSuite[GlutenPathOptionSuite]
   enableSuite[GlutenPrunedScanSuite]
-    .exclude(
-      "Aggregates with no groupby over tables having 1 BUCKET, return multiple rows"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "SPARK-32859: disable unnecessary bucketed table scan - basic test"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "SPARK-32859: disable unnecessary bucketed table scan - multiple bucketed columns test"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "SPARK-32859: disable unnecessary bucketed table scan - multiple joins test"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "SPARK-32859: disable unnecessary bucketed table scan - other operators test"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
   enableSuite[GlutenResolvedDataSourceSuite]
   enableSuite[GlutenSaveLoadSuite]
   enableSuite[GlutenTableScanSuite]
@@ -1402,43 +1402,6 @@ class VeloxTestSettings extends BackendTestSettings {
     // Rewrite with Gluten's explained result.
     .exclude("SPARK-47939: Explain should work with parameterized queries")
   enableSuite[GlutenSQLQueryTestSuite]
-    .exclude("charvarchar.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("collations-basic.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("collations-padding-trim.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "collations-string-functions.sql"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("count.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("cte-legacy.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("cte-nested.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("cte-nonlegacy.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("cte-recursion.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("cte.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("double-quoted-identifiers.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("grouping_set.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("identifier-clause-legacy.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("identifier-clause.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("keywords.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("kllquantiles.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "nonansi/double-quoted-identifiers.sql"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("nonansi/keywords.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("postgreSQL/create_view.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("postgreSQL/float8.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("postgreSQL/int4.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("postgreSQL/int8.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("postgreSQL/window_part2.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("postgreSQL/window_part3.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("postgreSQL/with.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("show-create-table.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("show-tables.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("show_columns.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("thetasketch.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude("try_aggregates.sql") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "union-resolution-edge-cases.sql"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
   enableSuite[GlutenStatisticsCollectionSuite]
     // The output byte size of Velox is different
     .exclude("SPARK-33687: analyze all tables in a specific database")
