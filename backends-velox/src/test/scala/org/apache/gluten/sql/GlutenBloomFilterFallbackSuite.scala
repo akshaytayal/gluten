@@ -48,11 +48,6 @@ import org.apache.spark.sql.internal.SQLConf
  *   - `DataFrame.stat.bloomFilter()`, which must keep Spark-native bytes (the rule is skipped for
  *     it via `CallerInfo.isBloomFilterStatFunction`).
  */
-// GLUTEN-12569 Spark 4.2 UT enablement: disabled whole suite - beforeAll registers a
-// 1-part FunctionIdentifier("bloom_filter_agg"), which Spark 4.2's FunctionRegistry now
-// rejects (must be fully-qualified 3-part), aborting the entire group1 CI run. Disabled
-// here so the rest of the group can run and be triaged.
-@org.scalatest.Ignore
 class GlutenBloomFilterFallbackSuite extends WholeStageTransformerSuite {
   protected val resourcePath: String = null
   protected val fileFormat: String = null
@@ -61,6 +56,21 @@ class GlutenBloomFilterFallbackSuite extends WholeStageTransformerSuite {
 
   private val funcIdBloomFilterAgg = FunctionIdentifier("bloom_filter_agg")
   private val funcIdMightContain = FunctionIdentifier("might_contain")
+
+  // GLUTEN-13179: Spark 4.2's FunctionRegistry rejects the 1-part FunctionIdentifiers registered
+  // in beforeAll (they must be fully qualified), which aborts the suite. Ignore every test on
+  // Spark 4.2 only; with no runnable tests ScalaTest also skips beforeAll/afterAll. Other Spark
+  // versions run the suite unchanged.
+  override def tags: Map[String, Set[String]] = {
+    val inherited = super.tags
+    if (matchSparkVersion(Some("4.2"), Some("4.2"))) {
+      inherited ++ testNames.map {
+        name => name -> (inherited.getOrElse(name, Set.empty[String]) + "org.scalatest.Ignore")
+      }.toMap
+    } else {
+      inherited
+    }
+  }
 
   override def beforeAll(): Unit = {
     super.beforeAll()
