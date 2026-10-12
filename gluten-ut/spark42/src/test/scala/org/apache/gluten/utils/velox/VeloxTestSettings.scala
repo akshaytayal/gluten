@@ -102,6 +102,7 @@ class VeloxTestSettings extends BackendTestSettings {
     .exclude("partitioned join: number of buckets mismatch should trigger shuffle")
     .exclude("partitioned join: only one side reports partitioning")
     .exclude("partitioned join: join with two partition keys and different # of partition keys")
+    .exclude("SPARK-55848: checkpointed partially-clustered join with dedup")
     .excludeByPrefix("SPARK-47094")
     .excludeByPrefix("SPARK-48655")
     .excludeByPrefix("SPARK-48012")
@@ -112,6 +113,12 @@ class VeloxTestSettings extends BackendTestSettings {
     // disable due to check for SMJ node
     .excludeByPrefix("SPARK-41413: partitioned join:")
     .excludeByPrefix("SPARK-42038: partially clustered:")
+    .exclude(
+      "SPARK-56241: GroupPartitionsExec non-coalescing passes through child ordering, " +
+        "no pre-join SortExec needed before SortMergeJoin")
+    .exclude(
+      "SPARK-56241: GroupPartitionsExec coalescing derives ordering from key expressions, " +
+        "no pre-join SortExec needed before SortMergeJoin")
     .exclude("SPARK-44641: duplicated records when SPJ is not triggered")
     .exclude(
       "SPARK-55715: Custom metrics of sorted-merge coalesced partitions"
