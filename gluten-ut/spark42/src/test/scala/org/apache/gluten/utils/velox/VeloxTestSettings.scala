@@ -165,15 +165,6 @@ class VeloxTestSettings extends BackendTestSettings {
       "SPARK-55535: Multi table join partial clustering"
     ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
     .exclude(
-      "SPARK-55715: Custom metrics of sorted-merge coalesced partitions"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "SPARK-55715: preserve outputOrdering when coalescing partitions with sorted merge"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "SPARK-55715: preserve outputOrdering when coalescing transform-partitioned splits"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
       "SPARK-55848: Window dedup after SPJ with partial clustering"
     ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
     .exclude(
@@ -187,9 +178,6 @@ class VeloxTestSettings extends BackendTestSettings {
     ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
     .exclude(
       "SPARK-56241: GroupPartitionsExec non-coalescing passes through child ordering, no pre-join SortExec needed before SortMergeJoin"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "SPARK-56549: k-way merge enabled only when parent requires ordering"
     ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
     .exclude(
       "partitioned join: exact distribution (same number of buckets) from both sides"
