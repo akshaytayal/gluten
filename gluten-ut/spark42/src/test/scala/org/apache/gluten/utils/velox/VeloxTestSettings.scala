@@ -113,6 +113,12 @@ class VeloxTestSettings extends BackendTestSettings {
     .excludeByPrefix("SPARK-41413: partitioned join:")
     .excludeByPrefix("SPARK-42038: partially clustered:")
     .exclude("SPARK-44641: duplicated records when SPJ is not triggered")
+    // Rewritten: the sorted merge needs the GroupPartitionsExec child to stay vanilla, and the
+    // tests check vanilla SortMergeJoinExec / ShuffledHashJoinExec nodes.
+    .exclude("SPARK-55715: Custom metrics of sorted-merge coalesced partitions")
+    .exclude("SPARK-55715: preserve outputOrdering when coalescing partitions with sorted merge")
+    .exclude("SPARK-55715: preserve outputOrdering when coalescing transform-partitioned splits")
+    .exclude("SPARK-56549: k-way merge enabled only when parent requires ordering")
     .exclude(
       "Gluten - SPARK-42038: partially clustered: full outer join is not applicable"
     ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
