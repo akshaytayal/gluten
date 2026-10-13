@@ -19,6 +19,7 @@ package org.apache.spark.sql.connector
 import org.apache.gluten.execution.FilterExecTransformerBase
 
 import org.apache.spark.sql.{DataFrame, GlutenSQLTestsTrait, Row}
+import org.apache.spark.sql.catalyst.plans.logical.Filter
 import org.apache.spark.sql.connector.catalog.{BufferedRows, InMemoryEnhancedPartitionFilterTable}
 import org.apache.spark.sql.execution.ExplainUtils.stripAQEPlan
 import org.apache.spark.sql.execution.FilterExec
@@ -93,10 +94,18 @@ class GlutenDataSourceV2EnhancedPartitionFilterSuite
   }
 
   private def assertPostScanFilter(df: DataFrame): Unit = {
-    val hasFilter = stripAQEPlan(df.queryExecution.executedPlan).exists {
-      case _: FilterExec | _: FilterExecTransformerBase => true
+    val expected = df.queryExecution.analyzed
+      .collectFirst { case f: Filter => f.condition }
+      .getOrElse(fail("Expected a Filter in the analyzed plan"))
+    val hasReturnedPredicate = stripAQEPlan(df.queryExecution.executedPlan).exists {
+      case f: FilterExec =>
+        splitConjunctivePredicates(f.condition).exists(_.semanticEquals(expected))
+      case f: FilterExecTransformerBase =>
+        splitConjunctivePredicates(f.cond).exists(_.semanticEquals(expected))
       case _ => false
     }
-    assert(hasFilter, "Partition filter returned in first pass should remain as a post-scan filter")
+    assert(
+      hasReturnedPredicate,
+      "Partition filter returned in first pass should remain in the post-scan filter")
   }
 }
