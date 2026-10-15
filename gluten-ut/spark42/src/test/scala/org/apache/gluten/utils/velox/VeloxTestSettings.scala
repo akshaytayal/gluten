@@ -1080,24 +1080,6 @@ class VeloxTestSettings extends BackendTestSettings {
       "check simplified (tpcds-v1.4/q95)"
     ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
   enableSuite[GlutenTPCDSV1_4_PlanStabilityWithStatsSuite]
-    .exclude(
-      "check simplified sf100 (tpcds-v1.4/q16)"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "check simplified sf100 (tpcds-v1.4/q28)"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "check simplified sf100 (tpcds-v1.4/q5)"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "check simplified sf100 (tpcds-v1.4/q54)"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "check simplified sf100 (tpcds-v1.4/q94)"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "check simplified sf100 (tpcds-v1.4/q95)"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
   enableSuite[GlutenTPCDSV2_7_PlanStabilitySuite]
     .exclude(
       "check simplified (tpcds-v2.7.0/q77a)"
