@@ -1055,9 +1055,6 @@ class VeloxTestSettings extends BackendTestSettings {
     .exclude("Tags set from session are prefixed with session UUID")
   enableSuite[GlutenTPCDSCollationQueryTestSuite]
   enableSuite[GlutenTPCDSModifiedPlanStabilitySuite]
-    .exclude(
-      "check simplified (tpcds-modifiedQueries/ss_max)"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
   enableSuite[GlutenTPCDSModifiedPlanStabilityWithStatsSuite]
     .exclude(
       "check simplified sf100 (tpcds-modifiedQueries/ss_max)"
