@@ -1059,9 +1059,6 @@ class VeloxTestSettings extends BackendTestSettings {
       "check simplified (tpcds-modifiedQueries/ss_max)"
     ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
   enableSuite[GlutenTPCDSModifiedPlanStabilityWithStatsSuite]
-    .exclude(
-      "check simplified sf100 (tpcds-modifiedQueries/ss_max)"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
   enableSuite[GlutenTPCDSQueryANSISuite]
   enableSuite[GlutenTPCDSQuerySuite]
   enableSuite[GlutenTPCDSQueryTestSuite]
