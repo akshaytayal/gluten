@@ -1542,6 +1542,16 @@
     </profile>
     <profile>
       <id>spark-4.3</id>
+      <!-- FORK CI ONLY (not for upstream): Spark 4.3.0 is not released yet; resolve the
+           v4.3.0-rc2 artifacts from the ASF staging repository. -->
+      <repositories>
+        <repository>
+          <id>apache-spark-4.3.0-rc2-staging</id>
+          <url>https://repository.apache.org/content/repositories/orgapachespark-1538/</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>false</enabled></snapshots>
+        </repository>
+      </repositories>
       <properties>
         <sparkbundle.version>4.3</sparkbundle.version>
         <sparkshim.artifactId>spark-sql-columnar-shims-spark43</sparkshim.artifactId>
