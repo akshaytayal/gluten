@@ -1034,9 +1034,6 @@ class VeloxTestSettings extends BackendTestSettings {
     .exclude(
       "SPARK-57298: collect_set normalizes NaN and -0.0 nested in complex types"
     ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
-    .exclude(
-      "collect_set with RESPECT NULLS preserves null in set"
-    ) // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
   enableSuite[GlutenDataFrameAsOfJoinSuite]
   enableSuite[GlutenDataFrameComplexTypeSuite]
   enableSuite[GlutenDataFrameFunctionsSuite]
