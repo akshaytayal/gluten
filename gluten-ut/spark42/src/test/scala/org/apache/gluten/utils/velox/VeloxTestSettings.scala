@@ -293,8 +293,10 @@ class VeloxTestSettings extends BackendTestSettings {
   enableSuite[GlutenValidateExternalTypeSuite]
   enableSuite[GlutenXmlExpressionsSuite]
     .exclude("from_xml- invalid data")
-    // Generated suites for org.apache.spark.sql.connector
-    .exclude("TIME type with arrays") // GLUTEN-12569 Spark 4.2 UT enablement (CI-confirmed)
+    // Replaced by a gluten test that checks internal rows: Dataset.collect() can't deserialize
+    // ARRAY<TIME(p)> with p < 6.
+    .exclude("TIME type with arrays")
+  // Generated suites for org.apache.spark.sql.connector
   enableSuite[GlutenDataSourceV2MetricsSuite]
   enableSuite[GlutenDataSourceV2OptionSuite]
   enableSuite[GlutenDataSourceV2UtilsSuite]
