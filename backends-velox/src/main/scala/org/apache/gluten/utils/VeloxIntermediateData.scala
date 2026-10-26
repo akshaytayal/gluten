@@ -17,7 +17,7 @@
 package org.apache.gluten.utils
 
 import org.apache.gluten.expression.ConverterUtils
-import org.apache.gluten.expression.aggregate.VeloxCollectSet
+import org.apache.gluten.expression.aggregate.{VeloxCollectList, VeloxCollectSet}
 import org.apache.gluten.extension.CollectRewriteRule
 import org.apache.gluten.substrait.`type`.{TypeBuilder, TypeNode}
 
@@ -121,10 +121,14 @@ object VeloxIntermediateData {
    *   The raw input arguments of a Velox aggregate function.
    */
   def getRawInputs(aggregateFunc: AggregateFunction): Seq[Expression] = aggregateFunc match {
-    // Velox's collect_set takes RESPECT NULLS as a constant `ignoreNulls` argument. Window
-    // functions keep Spark's CollectSet, because CollectRewriteRule only rewrites aggregates.
+    // Velox's collect_set / collect_list take RESPECT NULLS as a constant `ignoreNulls` argument.
+    // Window functions keep Spark's CollectSet / CollectList, because CollectRewriteRule only
+    // rewrites aggregates.
     case c: VeloxCollectSet if !c.ignoreNulls => Seq(c.child, Literal.FalseLiteral)
+    case c: VeloxCollectList if !c.ignoreNulls => Seq(c.child, Literal.FalseLiteral)
     case c: CollectSet if !CollectRewriteRule.getIgnoreNulls(c) =>
+      Seq(c.child, Literal.FalseLiteral)
+    case c: CollectList if !CollectRewriteRule.getIgnoreNulls(c) =>
       Seq(c.child, Literal.FalseLiteral)
     case _ => aggregateFunc.children
   }

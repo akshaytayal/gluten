@@ -234,4 +234,31 @@ class GlutenDataFrameWindowFunctionsSuite
       assert(collect(plan) { case w: WindowExec => w }.isEmpty, plan)
     }
   }
+
+  testGluten("collect_list RESPECT NULLS over a window frame") {
+    withTempView("t") {
+      Seq((1, Some(2)), (2, None), (3, Some(2)), (4, Some(5))).toDF("a", "b")
+        .createOrReplaceTempView("t")
+      val df = sql(
+        """
+          |SELECT a,
+          |  collect_list(b) RESPECT NULLS
+          |    OVER (ORDER BY a ROWS BETWEEN 1 PRECEDING AND CURRENT ROW),
+          |  collect_list(b) RESPECT NULLS OVER (ORDER BY a),
+          |  collect_list(b) OVER (ORDER BY a ROWS BETWEEN 1 PRECEDING AND CURRENT ROW)
+          |FROM t""".stripMargin)
+      checkAnswer(
+        df,
+        Seq(
+          Row(1, Seq(2), Seq(2), Seq(2)),
+          Row(2, Seq(2, null), Seq(2, null), Seq(2)),
+          Row(3, Seq(null, 2), Seq(2, null, 2), Seq(2)),
+          Row(4, Seq(2, 5), Seq(2, null, 2, 5), Seq(2, 5))
+        )
+      )
+      val plan = df.queryExecution.executedPlan
+      assert(collect(plan) { case w: WindowExecTransformer => w }.nonEmpty, plan)
+      assert(collect(plan) { case w: WindowExec => w }.isEmpty, plan)
+    }
+  }
 }

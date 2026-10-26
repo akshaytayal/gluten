@@ -316,6 +316,50 @@ class GlutenDataFrameAggregateSuite extends DataFrameAggregateSuite with GlutenS
     }
   }
 
+  testGluten("collect_list RESPECT NULLS with partial aggregation") {
+    withTempView("t") {
+      Seq(
+        (1, Some(1)),
+        (1, None),
+        (2, None),
+        (2, Some(3)),
+        (1, Some(4)),
+        (2, None),
+        (3, None))
+        .toDF("k", "v")
+        .repartition(3)
+        .createOrReplaceTempView("t")
+      val df = sql("""
+                     |SELECT k,
+                     |  sort_array(collect_list(v)),
+                     |  sort_array(collect_list(v) RESPECT NULLS),
+                     |  sort_array(array_agg(v) RESPECT NULLS)
+                     |FROM t GROUP BY k""".stripMargin)
+      checkAnswer(
+        df,
+        Seq(
+          Row(1, Seq(1, 4), Seq(null, 1, 4), Seq(null, 1, 4)),
+          Row(2, Seq(3), Seq(null, null, 3), Seq(null, null, 3)),
+          Row(3, Seq(), Seq(null), Seq(null))
+        )
+      )
+      val plan = df.queryExecution.executedPlan
+      assert(
+        collect(plan) {
+          case agg: HashAggregateExecTransformer
+              if agg.aggregateExpressions.exists(_.mode == Partial) =>
+            agg
+        }.nonEmpty,
+        plan)
+      assert(
+        collect(plan) {
+          case agg @ (_: HashAggregateExec | _: ObjectHashAggregateExec | _: SortAggregateExec) =>
+            agg
+        }.isEmpty,
+        plan)
+    }
+  }
+
   testGluten("SPARK-22223: ObjectHashAggregate should not introduce unnecessary shuffle") {
     withSQLConf(SQLConf.USE_OBJECT_HASH_AGG.key -> "true") {
       val df = Seq(("1", "2", 1), ("1", "2", 2), ("2", "3", 3), ("2", "3", 4))
