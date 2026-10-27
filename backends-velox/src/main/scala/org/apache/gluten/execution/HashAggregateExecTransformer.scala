@@ -508,6 +508,9 @@ abstract class HashAggregateExecTransformer(
         val aggregateFunc = aggExpr.aggregateFunction
         val childrenNodes = aggExpr.mode match {
           case Partial | Complete =>
+            // rowConstructed is per operator: in mixed-phase aggregates (e.g. the distinct
+            // stage), Partial arguments are also pre-projected and referenced by position.
+            // Literals are kept inline so that they reach Velox as constants.
             VeloxIntermediateData.getRawInputs(aggregateFunc).toList.map {
               case literal: Literal if rowConstructed =>
                 ExpressionConverter
